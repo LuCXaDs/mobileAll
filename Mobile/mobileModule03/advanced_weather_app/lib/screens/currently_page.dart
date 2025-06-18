@@ -84,12 +84,12 @@ class CurrentlyPageState extends State<CurrentlyPage> {
                             _weatherData?.code != null
                                 ? _weatherData!.code.toString()
                                 : 'fr',
-                            height: 30,
+                            height: 18,
+                            width: 20,
                             shape: const RoundedRectangle(0),
                           ),
                         ),
                         Flexible(
-                          // Ajout de Flexible ici
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -97,7 +97,11 @@ class CurrentlyPageState extends State<CurrentlyPage> {
                                   ? _weatherData!.country.toString()
                                   : 'Unknown',
                               textAlign: TextAlign.left,
-                              style: TextStyle(fontSize: 22),
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                               overflow:
                                   TextOverflow
                                       .ellipsis, // Important pour gérer l'overflow
@@ -114,14 +118,22 @@ class CurrentlyPageState extends State<CurrentlyPage> {
                                   _weatherData?.city != null
                                       ? _weatherData!.city.toString()
                                       : '',
-                                  style: TextStyle(fontSize: 18),
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                   overflow: TextOverflow.ellipsis, // Important
                                 ),
                               ),
                               if (_weatherData?.country != null)
                                 const Text(
                                   ', ',
-                                  style: TextStyle(fontSize: 18),
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               Flexible(
                                 // Ajout de Flexible ici pour la région
@@ -129,7 +141,11 @@ class CurrentlyPageState extends State<CurrentlyPage> {
                                   _weatherData?.region != null
                                       ? _weatherData!.region.toString()
                                       : '',
-                                  style: TextStyle(fontSize: 18),
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                   overflow: TextOverflow.ellipsis, // Important
                                 ),
                               ),
@@ -143,59 +159,94 @@ class CurrentlyPageState extends State<CurrentlyPage> {
                 Flexible(
                   child: Container(
                     padding: EdgeInsets.only(top: 10),
-                    height: 150,
+                    height: 100,
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                      textBaseline: TextBaseline.alphabetic,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      // textBaseline: TextBaseline.alphabetic,
+                      // mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: FittedBox(
-                              fit: BoxFit.contain,
-                              child: Text(
-                                'Currently',
-                                style: TextStyle(fontSize: 30),
-                                textAlign: TextAlign.left,
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Flexible(
+                            flex: 1,
+                            child: SizedBox(
+                              width: 70,
+                              height: 70,
+                              // padding: EdgeInsets.only(right: 100),
+                              child: Image.asset(
+                                'assets/weather/2682849_cloud_cloudy_day_forecast_sun_icon.png',
+                                // width: 150,
+                                // height: 150,
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(width: 20),
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: FittedBox(
-                              fit: BoxFit.contain,
-                              child: Text(
+
+                        SizedBox(width: 30),
+
+                        Flexible(
+                          flex: 2,
+                          // flex: 3,
+                          child: FittedBox(
+                            fit: BoxFit.contain,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              _weatherData?.current.temperature != null
+                                  ? '${_weatherData!.current.temperature.toString()}°'
+                                  : 'Non',
+                              style: TextStyle(
+                                fontSize: 70,
+                                color: Colors.white,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 30),
+                        Flexible(
+                          flex: 1,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
                                 _weatherData?.current.temperature != null
                                     ? _weatherData?.getWeatherDescription(
                                           _weatherData!.current.weatherCode,
                                         ) ??
                                         'no'
                                     : '',
-                                style: TextStyle(fontSize: 22),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                ),
                                 textAlign: TextAlign.end,
                               ),
-                            ),
+                              Text(
+                                _weatherData?.current.apparentTemperature !=
+                                        null
+                                    ? 'Feel like ${_weatherData!.current.apparentTemperature.toString()}°'
+                                    : 'Non',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                ),
+                                textAlign: TextAlign.end,
+                              ),
+                              Text(
+                                _weatherData?.current.windSpeed != null
+                                    ? 'Wind ${_weatherData!.current.windSpeed.toString()}m/s'
+                                    : 'Non',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                ),
+                                textAlign: TextAlign.end,
+                              ),
+                            ],
                           ),
                         ),
                       ],
-                    ),
-                  ),
-                ),
-
-                Flexible(
-                  flex: 3,
-                  child: FittedBox(
-                    fit: BoxFit.contain,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      _weatherData?.current.temperature != null
-                          ? '${_weatherData!.current.temperature.toString()}°'
-                          : 'Non',
-                      style: TextStyle(fontSize: 200),
-                      textAlign: TextAlign.left,
                     ),
                   ),
                 ),

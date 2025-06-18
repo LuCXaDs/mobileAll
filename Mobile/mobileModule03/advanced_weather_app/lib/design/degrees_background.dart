@@ -19,8 +19,8 @@ class DegreesBackground {
     //   endColor = Color(0xff430C05);
     // }
 
-    startColor = Color.fromARGB(255, 6, 2, 36);
-    endColor = Color.fromARGB(255, 13, 8, 59);
+    startColor = Color(0xff030524);
+    endColor = Color(0xff030524);
 
     return LinearGradient(
       colors: [startColor, endColor],

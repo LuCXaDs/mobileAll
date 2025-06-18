@@ -160,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
   // final WeatherService _weatherService = WeatherService();
   final DegreesBackground _degreesBackground = DegreesBackground();
   final PageController _pageController = PageController();
-  double _currentDegrees = 25;
+  final double _currentDegrees = 25;
 
   @override
   void initState() {
