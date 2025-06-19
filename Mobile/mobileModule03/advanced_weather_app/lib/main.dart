@@ -222,20 +222,20 @@ class _MyHomePageState extends State<MyHomePage> {
                   top: 20.0,
                   left: 16.0,
                   right: 16.0,
-                  bottom: 10.0,
+                  // bottom: 10.0,
                 ),
                 child: Container(
                   // Padding interne pour le contenu de l'AppBar
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 8.0,
-                    vertical: 8.0,
+                    horizontal: 3.0,
+                    vertical: 3.0,
                   ),
                   decoration: BoxDecoration(
                     // Couleur de fond de l'AppBar (peut être semi-transparente)
                     color: Theme.of(
                       context,
                     ).colorScheme.surface.withAlpha((0.90 * 255).round()),
-                    borderRadius: BorderRadius.circular(25.0), // Bords arrondis
+                    borderRadius: BorderRadius.circular(15.0), // Bords arrondis
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withAlpha((0.1 * 255).round()),

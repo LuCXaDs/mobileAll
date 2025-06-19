@@ -3,6 +3,10 @@ import 'package:provider/provider.dart';
 // import '../models/app_state.dart';
 import '../models/weather_model.dart';
 import 'package:country_flags/country_flags.dart';
+import '../widgets/current_degrees.dart';
+import '../widgets/current_weather.dart';
+import '../widgets/today_carroussel_weather.dart';
+import '../widgets/Weekly_carroussel_weather.dart';
 
 class CurrentlyPage extends StatefulWidget {
   const CurrentlyPage({super.key});
@@ -85,7 +89,7 @@ class CurrentlyPageState extends State<CurrentlyPage> {
                                 ? _weatherData!.code.toString()
                                 : 'fr',
                             height: 18,
-                            width: 20,
+                            width: 24,
                             shape: const RoundedRectangle(0),
                           ),
                         ),
@@ -115,7 +119,7 @@ class CurrentlyPageState extends State<CurrentlyPage> {
                               Flexible(
                                 // Ajout de Flexible ici pour la ville
                                 child: Text(
-                                  _weatherData?.city != null
+                                  _weatherData?.city != 'Unknown'
                                       ? _weatherData!.city.toString()
                                       : '',
                                   style: TextStyle(
@@ -126,29 +130,47 @@ class CurrentlyPageState extends State<CurrentlyPage> {
                                   overflow: TextOverflow.ellipsis, // Important
                                 ),
                               ),
-                              if (_weatherData?.country != null)
-                                const Text(
-                                  ', ',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
+                              // if (_weatherData?.city != null)
+                              //   const Text(
+                              //     ', ',
+                              //     style: TextStyle(
+                              //       fontSize: 18,
+                              //       color: Colors.white,
+                              //       fontWeight: FontWeight.bold,
+                              //     ),
+                              //   ),
+                              if (_weatherData?.city == 'Unknown')
+                                Flexible(
+                                  // Ajout de Flexible ici pour la région
+                                  child: Text(
+                                    _weatherData?.region != 'Unknown'
+                                        ? _weatherData!.region.toString()
+                                        : '',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    overflow:
+                                        TextOverflow.ellipsis, // Important
                                   ),
                                 ),
-                              Flexible(
-                                // Ajout de Flexible ici pour la région
-                                child: Text(
-                                  _weatherData?.region != null
-                                      ? _weatherData!.region.toString()
-                                      : '',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
+                              if (_weatherData?.city != 'Unknown')
+                                Flexible(
+                                  // Ajout de Flexible ici pour la région
+                                  child: Text(
+                                    _weatherData?.region != 'Unknown'
+                                        ? ', ${_weatherData!.region.toString()}'
+                                        : '',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    overflow:
+                                        TextOverflow.ellipsis, // Important
                                   ),
-                                  overflow: TextOverflow.ellipsis, // Important
                                 ),
-                              ),
                             ],
                           ),
                         ),
@@ -156,110 +178,24 @@ class CurrentlyPageState extends State<CurrentlyPage> {
                     ),
                   ),
                 ),
-                Flexible(
-                  child: Container(
-                    padding: EdgeInsets.only(top: 10),
-                    height: 100,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      // textBaseline: TextBaseline.alphabetic,
-                      // mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Flexible(
-                            flex: 1,
-                            child: SizedBox(
-                              width: 70,
-                              height: 70,
-                              // padding: EdgeInsets.only(right: 100),
-                              child: Image.asset(
-                                'assets/weather/2682849_cloud_cloudy_day_forecast_sun_icon.png',
-                                // width: 150,
-                                // height: 150,
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        SizedBox(width: 30),
-
-                        Flexible(
-                          flex: 2,
-                          // flex: 3,
-                          child: FittedBox(
-                            fit: BoxFit.contain,
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              _weatherData?.current.temperature != null
-                                  ? '${_weatherData!.current.temperature.toString()}°'
-                                  : 'Non',
-                              style: TextStyle(
-                                fontSize: 70,
-                                color: Colors.white,
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 30),
-                        Flexible(
-                          flex: 1,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                _weatherData?.current.temperature != null
-                                    ? _weatherData?.getWeatherDescription(
-                                          _weatherData!.current.weatherCode,
-                                        ) ??
-                                        'no'
-                                    : '',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                ),
-                                textAlign: TextAlign.end,
-                              ),
-                              Text(
-                                _weatherData?.current.apparentTemperature !=
-                                        null
-                                    ? 'Feel like ${_weatherData!.current.apparentTemperature.toString()}°'
-                                    : 'Non',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                ),
-                                textAlign: TextAlign.end,
-                              ),
-                              Text(
-                                _weatherData?.current.windSpeed != null
-                                    ? 'Wind ${_weatherData!.current.windSpeed.toString()}m/s'
-                                    : 'Non',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                ),
-                                textAlign: TextAlign.end,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                SizedBox(height: 10),
+                WeatherInfoRow(weatherData: _weatherData!),
+                SizedBox(height: 20),
+                WeatherCurrentAllInfo(weatherData: _weatherData!),
+                SizedBox(height: 30),
+                TodayCarrousselWeather(weatherData: _weatherData!),
+                SizedBox(height: 30),
+                WeeklyCarrousselWeather(weatherData: _weatherData!),
               ],
             ),
           ),
         ),
-        Expanded(
-          flex: 2,
-          child: SingleChildScrollView(
-            child: _buildButtonRows(_initializeButtons()),
-          ),
-        ),
+        // Expanded(
+        //   flex: 2,
+        //   child: SingleChildScrollView(
+        //     child: _buildButtonRows(_initializeButtons()),
+        //   ),
+        // ),
       ],
     );
   }

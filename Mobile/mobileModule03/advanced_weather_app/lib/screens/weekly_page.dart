@@ -29,7 +29,7 @@ class WeeklyPageState extends State<WeeklyPage> {
 
     var count = 0;
     for (var daily in _weatherData!.daily) {
-      if (count >= 24) {
+      if (count > 7) {
         break;
       }
       Map<String, String> hourlyMap = {
