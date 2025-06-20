@@ -36,7 +36,7 @@ class TodayCarrousselWeather extends StatelessWidget {
     return hourlyWeatherMaps;
   }
 
-  Widget _buildHourlyWeatherCard(Map<String, String> hourlyData) {
+  Widget _buildHourlyWeatherCard(Map<String, String> hourlyData, int index) {
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -51,11 +51,18 @@ class TodayCarrousselWeather extends StatelessWidget {
             offset: const Offset(0, 3),
           ),
         ],
-        border: BoxBorder.all(
-          width: 2,
-          color: Colors.white54,
-          style: BorderStyle.solid,
-        ),
+        border:
+            index != weatherData.time.hour
+                ? BoxBorder.all(
+                  width: 2,
+                  color: Color(0xff11112a),
+                  style: BorderStyle.solid,
+                )
+                : BoxBorder.all(
+                  width: 2,
+                  color: Colors.white54,
+                  style: BorderStyle.solid,
+                ),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -153,6 +160,9 @@ class TodayCarrousselWeather extends StatelessWidget {
       );
     }
 
+    // int getHourFromDateTime(DateTime dateTime) {
+    //   return dateTime.hour;
+
     // Si tu veux exactement 3 conteneurs, assure-toi que ta liste a au moins 3 éléments.
     // Sinon, le carrousel affichera le nombre d'éléments disponibles.
     // Tu peux ajouter une logique ici pour garantir 3 éléments si nécessaire,
@@ -163,6 +173,7 @@ class TodayCarrousselWeather extends StatelessWidget {
       options: CarouselOptions(
         height: 200.0,
         enlargeCenterPage: false,
+        initialPage: weatherData.time.hour,
         // --- Nouveaux paramètres pour contrôler le comportement ---
         autoPlay: false, // Désactive l'auto-lecture
         enableInfiniteScroll: false, // Désactive le défilement infini
@@ -174,10 +185,15 @@ class TodayCarrousselWeather extends StatelessWidget {
         padEnds: false,
       ),
       items:
-          hourlyWeatherMaps.map((hourlyData) {
+          hourlyWeatherMaps.asMap().entries.map((entry) {
+            final int index = entry.key; // L'index de l'élément actuel
+            final Map<String, String> dailyData =
+                entry.value; // La donnée elle-même
+
             return Builder(
               builder: (BuildContext context) {
-                return _buildHourlyWeatherCard(hourlyData);
+                // Tu passes maintenant l'index à ta fonction _buildDailyWeatherCard
+                return _buildHourlyWeatherCard(dailyData, index);
               },
             );
           }).toList(),

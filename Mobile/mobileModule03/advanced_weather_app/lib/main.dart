@@ -10,8 +10,11 @@ import 'screens/currently_page.dart';
 import 'screens/today_page.dart';
 import 'screens/weekly_page.dart';
 import 'screens/search_view_screen.dart';
+import 'screens/app_bar.dart';
 
 import 'design/degrees_background.dart';
+
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 void main() {
   runApp(
@@ -215,90 +218,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: SafeArea(
           child: Column(
             children: [
-              // Notre AppBar personnalisée
-              Padding(
-                // Padding pour l'espacement externe de l'AppBar (haut, gauche, droite)
-                padding: const EdgeInsets.only(
-                  top: 20.0,
-                  left: 16.0,
-                  right: 16.0,
-                  // bottom: 10.0,
-                ),
-                child: Container(
-                  // Padding interne pour le contenu de l'AppBar
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 3.0,
-                    vertical: 3.0,
-                  ),
-                  decoration: BoxDecoration(
-                    // Couleur de fond de l'AppBar (peut être semi-transparente)
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.surface.withAlpha((0.90 * 255).round()),
-                    borderRadius: BorderRadius.circular(15.0), // Bords arrondis
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withAlpha((0.1 * 255).round()),
-                        blurRadius: 10,
-                        offset: Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 4, right: 10),
-                        child: IconButton(
-                          onPressed: () {
-                            // setState est utilisé ici si onTapSearch modifie l'état local
-                            // Si onTapSearch ne fait que lire depuis AppState et potentiellement
-                            // notifier les listeners, setState ici n'est peut-être pas nécessaire
-                            // pour la recherche elle-même, mais pour toute autre MAJ d'UI.
-                            context.read<AppState>().onTapSearch(context);
-                          },
-                          icon: Icon(Icons.search),
-                        ),
-                      ),
-                      Expanded(
-                        child: TextField(
-                          controller: context.read<AppState>().searchController,
-                          // style: TextStyle(
-                          //   color: Theme.of(context).colorScheme.onSurface,
-                          // ),
-                          decoration: InputDecoration(
-                            hintText: 'Search...',
-                            hintStyle: TextStyle(
-                              color: Theme.of(context).colorScheme.onSurface
-                                  .withAlpha((0.6 * 255).round()),
-                            ),
-                            border:
-                                InputBorder
-                                    .none, // Pas de bordure pour le TextField
-                          ),
-                          onSubmitted: (value) {
-                            context.read<AppState>().onTapSearch(context);
-                          },
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          _geolocationService.fetchLocation(context);
-                        },
-                        icon: Icon(Icons.place),
-                        iconSize: 24,
-                        // color: Colors.red,
-                        // focusColor: Colors.yellow,
-                        // hoverColor: Colors.purple,
-                        // highlightColor: Colors.green,
-                        // splashColor: Colors.blue,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              // Utilisez Expanded pour donner au Stack l'espace restant
+              CustomAppBar(),
               Expanded(
-                // <--- MODIFICATION IMPORTANTE
                 child: Stack(
                   children: [
                     Consumer<AppState>(
@@ -319,7 +240,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                     WeeklyPage(),
                                   ]
                                   : const <Widget>[
-                                    // Contenu alternatif si showPageInformation est false
                                     Center(
                                       child: Text(
                                         'Currently',
@@ -356,72 +276,41 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
               ),
-              // Padding(
-              //   // Padding pour l'espacement externe de l'AppBar (haut, gauche, droite)
-              //   padding: const EdgeInsets.only(
-              //     top: 20.0,
-              //     left: 16.0,
-              //     right: 16.0,
-              //     bottom: 10.0,
-              //   ),
-              //   child: Container(
-              //     // Padding interne pour le contenu de l'AppBar
-              //     padding: const EdgeInsets.symmetric(
-              //       horizontal: 8.0,
-              //       vertical: 8.0,
-              //     ),
-              //     decoration: BoxDecoration(
-              //       // Couleur de fond de l'AppBar (peut être semi-transparente)
-              //       color: Theme.of(
-              //         context,
-              //       ).colorScheme.surface.withAlpha((0.85 * 255).round()),
-              //       borderRadius: BorderRadius.circular(10.0), // Bords arrondis
-              //       boxShadow: [
-              //         BoxShadow(
-              //           color: Colors.black.withAlpha((0.1 * 255).round()),
-              //           blurRadius: 10,
-              //           offset: Offset(0, 4),
-              //         ),
-              //       ],
-              //     ),
-              //     child: Row(
-              //       children: [
-              //         Expanded(
-              //           child: IconButton(
-              //             onPressed: () {},
-              //             icon: Icon(Icons.currency_ruble),
-              //           ),
-              //         ),
-              //         Expanded(
-              //           child: IconButton(
-              //             onPressed: () {},
-              //             icon: Icon(Icons.currency_ruble),
-              //           ),
-              //         ),
-              //         Expanded(
-              //           child: IconButton(
-              //             onPressed: () {},
-              //             icon: Icon(Icons.currency_ruble),
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.cloud), label: 'Currently'),
-          BottomNavigationBarItem(icon: Icon(Icons.sunny), label: 'Today'),
-          BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Weekly'),
-        ],
-        currentIndex: appState.selectedIndex,
-        // selectedItemColor: Colors.black,
-        // backgroundColor: Colors.white,
-        onTap: _onItemTapped,
+      bottomNavigationBar: Container(
+        height: 100,
+        color: const Color(0xff030524),
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+        child: GNav(
+          padding: EdgeInsetsGeometry.only(
+            right: 20,
+            left: 20,
+            top: 10,
+            bottom: 10,
+          ),
+          gap: 20,
+          backgroundColor: Color(0xff030524),
+          tabBackgroundColor: Color(0xff11112a),
+          color: Colors.white,
+          activeColor: Colors.white,
+          tabs: [
+            GButton(icon: Icons.cloud, text: 'Currently'),
+            GButton(icon: Icons.sunny, text: 'Today'),
+            GButton(icon: Icons.event, text: 'Weekly'),
+          ],
+          // items: const <BottomNavigationBarItem>[
+          //   BottomNavigationBarItem(icon: Icon(Icons.cloud), label: 'Currently'),
+          //   BottomNavigationBarItem(icon: Icon(Icons.sunny), label: 'Today'),
+          //   BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Weekly'),
+          // ],
+          selectedIndex: appState.selectedIndex,
+          // selectedItemColor: Colors.black,
+          // backgroundColor: Colors.white,
+          onTabChange: _onItemTapped,
+        ),
       ),
     );
   }

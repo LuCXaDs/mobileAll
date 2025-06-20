@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'weather_model.dart'; // Assure-toi d'importer ton modèle de données
 
 class WeatherDataProvider with ChangeNotifier {
   WeatherData? _weatherData;
@@ -17,6 +16,8 @@ class WeatherDataProvider with ChangeNotifier {
 }
 
 class WeatherData {
+  final DateTime time;
+  final DateTime today;
   final double latitude;
   final double longitude;
   final String timezone;
@@ -30,6 +31,8 @@ class WeatherData {
   final CurrentWeather current;
 
   WeatherData({
+    DateTime? time,
+    DateTime? today,
     this.latitude = 0.0,
     this.longitude = 0.0,
     this.timezone = '',
@@ -40,7 +43,13 @@ class WeatherData {
     this.hourly = const [],
     this.daily = const [],
     CurrentWeather? current,
-  }) : current = current ?? CurrentWeather.withDefaults();
+  }) : current = current ?? CurrentWeather.withDefaults(),
+       time = time ?? DateTime.now(),
+       today = DateTime(
+         (time ?? DateTime.now()).year,
+         (time ?? DateTime.now()).month,
+         (time ?? DateTime.now()).day,
+       );
 
   String getWeatherDescription(int weatherCode) {
     switch (weatherCode) {
@@ -130,10 +139,10 @@ class WeatherData {
       case 86:
         return 'assets/weather/snow.png';
       case 95:
-        return 'assets/weather/thunderstorm.png';
+        return 'assets/weather/thunderstrom.png';
       case 96:
       case 99:
-        return 'assets/weather/thunderstorm.png';
+        return 'assets/weather/thunderstrom.png';
       default:
         return 'assets/weather/clear_sky.png';
     }
