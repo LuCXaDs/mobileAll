@@ -35,9 +35,9 @@ class DailyTemperatureChart extends StatelessWidget {
         if (dateFromData.year == today.year &&
             dateFromData.month == today.month &&
             dateFromData.day == today.day) {
-          dayDisplayName = 'Aujourd\'hui';
+          dayDisplayName = 'Today';
         } else {
-          String dayName = DateFormat('EEEE', 'fr_FR').format(dateFromData);
+          String dayName = DateFormat('EEEE', 'en_US').format(dateFromData);
           dayDisplayName = dayName[0].toUpperCase() + dayName.substring(1);
         }
 
@@ -86,7 +86,7 @@ class DailyTemperatureChart extends StatelessWidget {
           labelStyle: const TextStyle(color: Colors.white, fontSize: 12),
 
           // NOUVEAU : Incline les étiquettes de 45 degrés pour une meilleure lisibilité.
-          labelRotation: 45,
+          labelRotation: -45,
         ),
         primaryYAxis: NumericAxis(
           labelFormat: '{value}°',
