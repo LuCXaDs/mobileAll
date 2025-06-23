@@ -66,12 +66,12 @@ class WeatherInfoRow extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                'Ressenti ${weatherData.current.apparentTemperature}°',
+                'Feel like ${weatherData.current.apparentTemperature}°',
                 style: const TextStyle(fontSize: 12, color: Colors.white),
               ),
               const SizedBox(height: 4),
               Text(
-                'Vent ${weatherData.current.windSpeed} m/s',
+                'Wind Speed ${weatherData.current.windSpeed} m/s',
                 style: const TextStyle(fontSize: 12, color: Colors.white),
               ),
             ],

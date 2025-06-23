@@ -40,7 +40,7 @@ class TodayPageState extends State<TodayPage> {
           SizedBox(height: 20),
           TodayCarrousselWeather(weatherData: _weatherData!),
           SizedBox(height: 20),
-          TemperatureChartPage(),
+          TemperatureChartPage(weatherData: _weatherData!),
         ],
       ),
     );

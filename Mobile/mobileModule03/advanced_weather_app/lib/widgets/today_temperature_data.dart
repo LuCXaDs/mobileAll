@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'dart:math'; // Import de la bibliothèque mathématique pour simuler la température
+import 'package:intl/intl.dart';
+
+import '../models/weather_model.dart';
 
 /// Modèle de données pour les points du graphique.
 /// Chaque point aura une heure et une température associée.
@@ -12,26 +15,42 @@ class TemperatureData {
 }
 
 class TemperatureChartPage extends StatelessWidget {
-  const TemperatureChartPage({super.key});
+  final WeatherData weatherData;
 
-  /// Méthode pour générer des données de température factices sur 24 heures.
-  /// La température suit une courbe sinusoïdale pour simuler le cycle jour/nuit.
-  List<TemperatureData> _getChartData() {
+  const TemperatureChartPage({super.key, required this.weatherData});
+
+  List<TemperatureData> _getChartDataFromApi(WeatherData weatherData) {
     final List<TemperatureData> chartData = [];
-    // Boucle pour générer des données pour chaque heure de 00h à 23h
-    for (int i = 0; i < 24; i++) {
-      // Simule une variation de température réaliste au cours de la journée
-      // Température de base de 12°C, avec une amplitude de 6°C.
-      // Le pic de température est à 15h (15:00).
-      final double temperature = 12 + (6 * cos((i - 15) * (pi * 2) / 24));
 
-      // Formate l'heure avec un zéro initial si nécessaire (ex: "01h", "08h")
-      final String hour = '${i.toString().padLeft(2, '0')}h';
-
-      chartData.add(
-        TemperatureData(hour, double.parse(temperature.toStringAsFixed(1))),
-      );
+    // Sécurité : si les données horaires sont vides, on retourne une liste vide.
+    if (weatherData.hourly.isEmpty) {
+      return chartData;
     }
+
+    // On ne prend que les 24 premières heures de prévisions.
+    final hourlyForecasts = weatherData.hourly.take(24);
+
+    for (var hourly in hourlyForecasts) {
+      try {
+        // 1. On parse la date depuis la chaîne de caractères (ex: "2023-10-27T14:00")
+        final DateTime dateTime = DateTime.parse(hourly.time);
+
+        // 2. On formate l'heure pour l'axe X du graphique (ex: "14h")
+        final String formattedHour = "${DateFormat('HH').format(dateTime)}h";
+
+        // 3. On s'assure que la température est un double
+        final double temperature = hourly.temperature.toDouble();
+
+        // 4. On ajoute les données formatées à notre liste pour le graphique
+        chartData.add(TemperatureData(formattedHour, temperature));
+      } catch (e) {
+        // Si une date est mal formatée, on l'ignore et on continue
+        debugPrint(
+          "Erreur de parsing de la date/heure : ${hourly.time}, erreur: $e",
+        );
+      }
+    }
+
     return chartData;
   }
 
@@ -41,16 +60,17 @@ class TemperatureChartPage extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        // color: const Color(0xff11112a),
+        color: const Color(0xff030524),
+        border: Border.all(width: 2, color: Colors.white54.withAlpha(50)),
         borderRadius: BorderRadius.circular(10.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
-          ),
-        ],
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.black.withValues(alpha: 0.2),
+        //     spreadRadius: 2,
+        //     blurRadius: 5,
+        //     offset: const Offset(0, 3),
+        //   ),
+        // ],
       ),
       // Le fond de l'application doit être sombre pour que le texte blanc soit visible
       // Par exemple, placez ce widget dans un Scaffold avec un backgroundColor: Colors.black
@@ -64,6 +84,7 @@ class TemperatureChartPage extends StatelessWidget {
         title: ChartTitle(
           text: 'Température sur 24h',
           textStyle: TextStyle(color: Colors.white),
+          alignment: ChartAlignment.near,
         ),
 
         // --- Configuration de l'axe X (Heures) ---
@@ -91,7 +112,7 @@ class TemperatureChartPage extends StatelessWidget {
         // REMPLACÉ : LineSeries est remplacée par AreaSeries pour une courbe pleine.
         series: <CartesianSeries<TemperatureData, String>>[
           AreaSeries<TemperatureData, String>(
-            dataSource: _getChartData(),
+            dataSource: _getChartDataFromApi(weatherData),
             xValueMapper: (TemperatureData data, _) => data.hour,
             yValueMapper: (TemperatureData data, _) => data.temperature,
 

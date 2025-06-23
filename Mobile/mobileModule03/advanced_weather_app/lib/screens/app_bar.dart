@@ -56,7 +56,7 @@ class CustomAppBar extends StatelessWidget {
               child: IconButton(
                 onPressed: () => appState.onTapSearch(context),
                 icon: const Icon(Icons.search),
-                tooltip: 'Rechercher une ville', // Aide pour l'accessibilité.
+                tooltip: 'Find a City', // Aide pour l'accessibilité.
               ),
             ),
             // --- Champ de texte pour la recherche ---
@@ -83,8 +83,7 @@ class CustomAppBar extends StatelessWidget {
             IconButton(
               onPressed: () => geolocationService.fetchLocation(context),
               icon: const Icon(Icons.place),
-              tooltip:
-                  'Utiliser ma position actuelle', // Aide pour l'accessibilité.
+              tooltip: 'My Position', // Aide pour l'accessibilité.
               iconSize: 24,
               color:
                   appState.locationButtonColor == false
