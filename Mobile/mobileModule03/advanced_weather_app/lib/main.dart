@@ -125,7 +125,7 @@ class MyApp extends StatelessWidget {
 
         // scaffoldBackgroundColor définit la couleur de fond par défaut des Scaffold
         // On le met en transparent ici pour que le dégradé du body soit visible
-        scaffoldBackgroundColor: Colors.transparent,
+        scaffoldBackgroundColor: const Color(0xff030524),
 
         // Très utile si votre design de fond est géré par un Container parent avec un dégradé
         // ou une image, permettant à ce fond de transparaître.
@@ -207,7 +207,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final appState = context.watch<AppState>();
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      // backgroundColor: Colors.transparent,
       body: Container(
         // Ce Container prend tout l'écran et applique le dégradé
         decoration: BoxDecoration(
@@ -243,19 +243,28 @@ class _MyHomePageState extends State<MyHomePage> {
                                     Center(
                                       child: Text(
                                         'Currently',
-                                        style: TextStyle(fontSize: 30),
+                                        style: TextStyle(
+                                          fontSize: 30,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
                                     Center(
                                       child: Text(
                                         'Today',
-                                        style: TextStyle(fontSize: 30),
+                                        style: TextStyle(
+                                          fontSize: 30,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
                                     Center(
                                       child: Text(
                                         'Weekly',
-                                        style: TextStyle(fontSize: 30),
+                                        style: TextStyle(
+                                          fontSize: 30,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -281,10 +290,18 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       bottomNavigationBar: Container(
-        height: 100,
-        color: const Color(0xff030524),
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+        height: 65,
+        // color: const Color(0xff11112a),
+        decoration: BoxDecoration(
+          color: const Color(0xff11112a),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(40),
+            topRight: Radius.circular(40),
+          ),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 5),
         child: GNav(
+          // iconSize: 30,
           padding: EdgeInsetsGeometry.only(
             right: 20,
             left: 20,
@@ -292,8 +309,8 @@ class _MyHomePageState extends State<MyHomePage> {
             bottom: 10,
           ),
           gap: 20,
-          backgroundColor: Color(0xff030524),
-          tabBackgroundColor: Color(0xff11112a),
+          backgroundColor: Color(0xff11112a),
+          tabBackgroundColor: Color(0xff030524),
           color: Colors.white,
           activeColor: Colors.white,
           tabs: [

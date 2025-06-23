@@ -11,6 +11,7 @@ class AppState with ChangeNotifier {
   int _selectedIndex = 0;
   double _currentDegrees = 0.0;
   bool _showPageInformation = false;
+  bool _locationButtonColor = false;
 
   List<dynamic> get citySuggestions => _citySuggestions;
 
@@ -19,6 +20,7 @@ class AppState with ChangeNotifier {
   int get selectedIndex => _selectedIndex;
   double get currentDegrees => _currentDegrees;
   bool get showPageInformation => _showPageInformation;
+  bool get locationButtonColor => _locationButtonColor;
 
   String _latitude = '';
   String _longitude = '';
@@ -39,6 +41,11 @@ class AppState with ChangeNotifier {
 
   void setShowPageInformation(bool result) {
     _showPageInformation = result;
+    notifyListeners();
+  }
+
+  void setlocationButtonColor(bool result) {
+    _locationButtonColor = result;
     notifyListeners();
   }
 
@@ -115,6 +122,7 @@ class AppState with ChangeNotifier {
       // citySuggestions.clear();
       _searchController.clear();
       setShowPageInformation(true);
+      setlocationButtonColor(false);
     }
     notifyListeners();
   }
@@ -159,6 +167,7 @@ class AppState with ChangeNotifier {
       if (context.mounted) {
         // Il est bon de vérifier aussi ici avant d'autres opérations de contexte si _allLocation a pris du temps
         setShowPageInformation(true); // Par exemple
+        setlocationButtonColor(false);
       }
     }
     _searchController.clear();

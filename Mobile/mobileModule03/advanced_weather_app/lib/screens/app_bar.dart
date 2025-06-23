@@ -42,7 +42,7 @@ class CustomAppBar extends StatelessWidget {
           boxShadow: [
             // Ombre portée subtile pour donner de la profondeur.
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withAlpha(20),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -67,11 +67,11 @@ class CustomAppBar extends StatelessWidget {
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
                 decoration: InputDecoration(
-                  hintText: 'Rechercher une ville...',
+                  hintText: 'Seatch a city ...',
                   hintStyle: TextStyle(
                     color: Theme.of(
                       context,
-                    ).colorScheme.onSurface.withAlpha(20),
+                    ).colorScheme.onSurface.withAlpha(180),
                   ),
                   border: InputBorder.none, // Design épuré sans bordure.
                 ),
@@ -86,6 +86,10 @@ class CustomAppBar extends StatelessWidget {
               tooltip:
                   'Utiliser ma position actuelle', // Aide pour l'accessibilité.
               iconSize: 24,
+              color:
+                  appState.locationButtonColor == false
+                      ? Colors.black87
+                      : const Color.fromARGB(255, 233, 186, 15),
             ),
           ],
         ),

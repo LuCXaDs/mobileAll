@@ -6,6 +6,7 @@ import '../models/weather_model.dart';
 import '../widgets/current_degrees.dart';
 import '../widgets/today_carroussel_weather.dart';
 import '../widgets/country_city_region_flag.dart';
+import '../widgets/today_temperature_data.dart';
 
 class TodayPage extends StatefulWidget {
   const TodayPage({super.key});
@@ -38,6 +39,8 @@ class TodayPageState extends State<TodayPage> {
           WeatherInfoRow(weatherData: _weatherData!),
           SizedBox(height: 20),
           TodayCarrousselWeather(weatherData: _weatherData!),
+          SizedBox(height: 20),
+          TemperatureChartPage(),
         ],
       ),
     );

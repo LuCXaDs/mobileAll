@@ -98,6 +98,7 @@ class GeolocationService {
         }
         if (context.mounted) {
           context.read<AppState>().setShowPageInformation(true);
+          context.read<AppState>().setlocationButtonColor(true);
         }
       }
     } catch (e) {

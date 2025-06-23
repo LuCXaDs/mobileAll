@@ -65,7 +65,11 @@ class SearchViewScreenState extends State<SearchViewScreen> {
                         shape: const RoundedRectangle(20),
                       ),
                       SizedBox(width: 8),
-                      Text(suggestion['name'], style: TextStyle(fontSize: 16)),
+                      Text(
+                        suggestion['name'],
+                        style: TextStyle(fontSize: 16),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ],
                   ),
                   subtitle: Text(
