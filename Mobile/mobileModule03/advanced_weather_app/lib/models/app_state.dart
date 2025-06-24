@@ -119,27 +119,12 @@ class AppState with ChangeNotifier {
         );
         _allLocation(context);
       }
-      // citySuggestions.clear();
       _searchController.clear();
       setShowPageInformation(true);
       setlocationButtonColor(false);
     }
     notifyListeners();
   }
-
-  // Future<void> _allLocation(BuildContext context) async {
-  //   final WeatherService weatherService = WeatherService();
-  //   debugPrint('$latitude, $longitude');
-  //   WeatherData weatherData = await weatherService.fetchWeatherData(
-  //     latitude.toString(),
-  //     longitude.toString(),
-  //   );
-
-  //   if (context.mounted) {
-  //     context.read<WeatherDataProvider>().setWeatherData(weatherData);
-  //   }
-  //   // debugPrint("\n\n\n${weatherData}");
-  // }
 
   Future<void> onTapListSearch(BuildContext context, dynamic suggestion) async {
     if (_searchController.text.isNotEmpty) {
@@ -160,13 +145,9 @@ class AppState with ChangeNotifier {
       setSearchText(
         "'${suggestion['name']} : Latitude: ${suggestion['latitude']}, Longitude: ${suggestion['longitude']}'",
       );
-      // citySuggestions.clear();
-      await _allLocation(
-        context,
-      ); // Le contexte de MyHomePage est toujours passé ici
+      await _allLocation(context);
       if (context.mounted) {
-        // Il est bon de vérifier aussi ici avant d'autres opérations de contexte si _allLocation a pris du temps
-        setShowPageInformation(true); // Par exemple
+        setShowPageInformation(true);
         setlocationButtonColor(false);
       }
     }
@@ -188,7 +169,7 @@ class AppState with ChangeNotifier {
       debugPrint(
         '[_allLocation] Erreur lors de la récupération des données: $e',
       );
-      return; // Important de sortir en cas d'erreur
+      return;
     }
 
     // Mettre à jour le provider UNIQUEMENT si le contexte est toujours monté

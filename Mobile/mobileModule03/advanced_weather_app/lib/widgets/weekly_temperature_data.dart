@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import '../models/weather_model.dart'; // Assurez-vous que le chemin est correct
+import '../models/weather_model.dart';
 
-// Le modèle de données ne change pas.
 class DailyTemperatureData {
   final String day;
   final double minTemp;
@@ -18,7 +17,6 @@ class DailyTemperatureChart extends StatelessWidget {
 
   const DailyTemperatureChart({super.key, required this.weatherData});
 
-  // La fonction de traitement des données ne change pas.
   List<DailyTemperatureData> _getDailyChartData() {
     final List<DailyTemperatureData> chartData = [];
     if (weatherData.daily.isEmpty) return chartData;
@@ -84,8 +82,6 @@ class DailyTemperatureChart extends StatelessWidget {
           majorGridLines: const MajorGridLines(width: 0),
           axisLine: const AxisLine(width: 0),
           labelStyle: const TextStyle(color: Colors.white, fontSize: 12),
-
-          // NOUVEAU : Incline les étiquettes de 45 degrés pour une meilleure lisibilité.
           labelRotation: -45,
         ),
         primaryYAxis: NumericAxis(
@@ -95,8 +91,9 @@ class DailyTemperatureChart extends StatelessWidget {
           labelStyle: const TextStyle(color: Colors.white, fontSize: 12),
         ),
         series: <CartesianSeries<DailyTemperatureData, String>>[
+          // --- Temperature MAXIMALE ---
           AreaSeries<DailyTemperatureData, String>(
-            name: 'Max',
+            name: 'Maximun Temperature',
             dataSource: chartDataSource,
             xValueMapper: (DailyTemperatureData data, _) => data.day,
             yValueMapper: (DailyTemperatureData data, _) => data.maxTemp,
@@ -113,11 +110,18 @@ class DailyTemperatureChart extends StatelessWidget {
             borderWidth: 2,
             dataLabelSettings: const DataLabelSettings(
               isVisible: true,
-              textStyle: TextStyle(color: Colors.white, fontSize: 11),
+              labelAlignment: ChartDataLabelAlignment.top,
+              margin: EdgeInsets.only(top: 5),
+              textStyle: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
+          // --- Temperature MINIMALE ---
           AreaSeries<DailyTemperatureData, String>(
-            name: 'Min',
+            name: 'Minimun temperature',
             dataSource: chartDataSource,
             xValueMapper: (DailyTemperatureData data, _) => data.day,
             yValueMapper: (DailyTemperatureData data, _) => data.minTemp,
@@ -134,7 +138,13 @@ class DailyTemperatureChart extends StatelessWidget {
             borderWidth: 2,
             dataLabelSettings: const DataLabelSettings(
               isVisible: true,
-              textStyle: TextStyle(color: Colors.white, fontSize: 11),
+              labelAlignment: ChartDataLabelAlignment.bottom,
+              margin: EdgeInsets.only(top: 5),
+              textStyle: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],

@@ -11,16 +11,13 @@ class WeatherCurrentAllInfo extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15), // Un peu plus arrondi
+        borderRadius: BorderRadius.circular(15),
         color: const Color(0xff11112a),
       ),
       child: Column(
-        // On utilise la colonne comme parent principal pour organiser verticalement
         crossAxisAlignment: CrossAxisAlignment.start,
-        // Répartit l'espace vertical de manière égale entre le titre et les rangées
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          // --- TITRE ---
           Padding(
             padding: EdgeInsetsGeometry.only(bottom: 20),
             child: const Text(
@@ -33,9 +30,7 @@ class WeatherCurrentAllInfo extends StatelessWidget {
             ),
           ),
 
-          // --- PREMIÈRE RANGÉE D'INFORMATIONS ---
           Row(
-            // Répartit l'espace horizontal de manière égale entre les 3 colonnes d'infos
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _buildInfoItem(
@@ -53,7 +48,6 @@ class WeatherCurrentAllInfo extends StatelessWidget {
             ],
           ),
           SizedBox(height: 30),
-          // --- DEUXIÈME RANGÉE D'INFORMATIONS ---
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -76,8 +70,6 @@ class WeatherCurrentAllInfo extends StatelessWidget {
     );
   }
 
-  /// Une méthode privée "helper" pour construire un item d'information.
-  /// Cela évite la répétition de code et rend le widget principal plus lisible.
   Widget _buildInfoItem({required String title, required String value}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -85,16 +77,16 @@ class WeatherCurrentAllInfo extends StatelessWidget {
         Text(
           title,
           style: const TextStyle(
-            fontSize: 14, // Légèrement plus grand pour la lisibilité
+            fontSize: 14,
             color: Colors.white54,
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(height: 5), // Ajoute un petit espace vertical
+        const SizedBox(height: 5),
         Text(
           value,
           style: const TextStyle(
-            fontSize: 16, // La valeur un peu plus grande que le titre
+            fontSize: 16,
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),

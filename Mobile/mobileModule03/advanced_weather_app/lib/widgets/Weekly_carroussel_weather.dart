@@ -24,27 +24,21 @@ class WeeklyCarrousselWeather extends StatelessWidget {
         break;
       }
 
-      // Convertit la chaîne de caractères de la date (ex: "2025-06-20") en objet DateTime
       final DateTime dateFromData = DateTime.parse(daily.time);
 
       String dayDisplayName;
 
-      // Compare la date des données météo avec la date d'aujourd'hui
       if (dateFromData.year == today.year &&
           dateFromData.month == today.month &&
           dateFromData.day == today.day) {
         dayDisplayName = 'Today';
       } else {
-        // Formate la date pour obtenir le nom complet du jour de la semaine (ex: "lundi")
-        // 'EEEE' est le pattern pour le nom complet du jour. 'fr_FR' pour le français.
         String dayName = DateFormat('EEEE', 'en_US').format(dateFromData);
 
-        // Met la première lettre en majuscule pour un affichage plus propre (ex: "Lundi")
         dayDisplayName = dayName[0].toUpperCase() + dayName.substring(1);
       }
 
       final Map<String, String> dailyMap = {
-        // Utilise le nom formaté du jour au lieu de la date brute
         'time': daily.time,
         'timeDisplay': dayDisplayName,
         'maxTemperature': daily.maxTemperature.toString(),
@@ -62,171 +56,113 @@ class WeeklyCarrousselWeather extends StatelessWidget {
     return dailyWeatherMaps;
   }
 
-  // List<Map<String, String>> _createHourlyWeatherMaps() {
-  //   List<Map<String, String>> hourlyWeatherMaps = [];
-
-  //   var count = 0;
-  //   for (var hourly in weatherData.hourly) {
-  //     if (count >= 24) {
-  //       break;
-  //     }
-  //     DateTime dateTime = DateTime.parse(hourly.time);
-
-  //     String formattedTime = DateFormat('HH:mm').format(dateTime);
-
-  //     Map<String, String> hourlyMap = {
-  //       'time': formattedTime,
-  //       'temperature': hourly.temperature.toString(),
-  //       'weatherCodeDescription': weatherData.getWeatherDescription(
-  //         hourly.weatherCode,
-  //       ),
-  //       'weatherCode': hourly.weatherCode.toString(),
-  //       'windSpeed': hourly.windSpeed.toString(),
-  //     };
-  //     hourlyWeatherMaps.add(hourlyMap);
-  //     count++;
-  //   }
-
-  //   return hourlyWeatherMaps;
-  // }
-
   Widget _buildDailyWeatherCard(Map<String, String> dailyData, int index) {
+    Widget buildTempRow(String iconPath, String? temp) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset(iconPath, width: 16, height: 16),
+          const SizedBox(width: 5),
+          Text.rich(
+            TextSpan(
+              style: const TextStyle(color: Colors.white, fontSize: 16.0),
+              children: [
+                TextSpan(text: temp ?? '--'),
+                const TextSpan(
+                  text: '°C',
+                  style: TextStyle(color: Colors.white70, fontSize: 12.0),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 5.0),
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: const Color(0xff030524),
         borderRadius: BorderRadius.circular(10.0),
+        border:
+            index == 0
+                ? Border.all(width: 2, color: Colors.white54)
+                : Border.all(width: 2, color: const Color(0xff11112a)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
+            color: Colors.black.withOpacity(0.2),
             spreadRadius: 2,
             blurRadius: 5,
             offset: const Offset(0, 3),
           ),
         ],
-        border:
-            index == 0
-                ? BoxBorder.all(
-                  width: 2,
-                  color: Colors.white54,
-                  style: BorderStyle.solid,
-                )
-                : BoxBorder.all(
-                  width: 2,
-                  color: Color(0xff11112a),
-                  style: BorderStyle.solid,
-                ),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SelectableText(
-                '${dailyData['timeDisplay']}',
-                style: const TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '${dailyData['timeDisplay']}',
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 2),
-              SelectableText(
-                '${dailyData['time']}',
-                style: const TextStyle(fontSize: 12.0, color: Colors.white54),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 5),
-              SizedBox(
-                height: 60,
-                child: Image.asset(
+                const SizedBox(height: 2),
+                Flexible(
+                  child: Text(
+                    '${dailyData['time']}',
+                    style: const TextStyle(
+                      fontSize: 12.0,
+                      color: Colors.white54,
+                    ),
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const Spacer(),
+                Image.asset(
                   weatherData.getImageForWeatherCode(
                     dailyData['weatherCode'] ?? '100',
                   ),
+                  height: 50,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-          const SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                // textBaseline: TextBaseline.alphabetic,
-                children: [
-                  Image.asset(
-                    'assets/icon/9045082_temperature_max_icon.png',
-                    width: 20,
-                    height: 20,
-                  ),
-                  const SizedBox(width: 5),
-                  SelectableText(
-                    '${dailyData['maxTemperature']}',
-                    style: const TextStyle(fontSize: 16.0, color: Colors.white),
-                    textAlign: TextAlign.center,
-                  ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                buildTempRow(
+                  'assets/icon/thermometer_high.png',
+                  dailyData['maxTemperature'],
+                ),
 
-                  SelectableText(
-                    '°C',
-                    style: const TextStyle(
-                      fontSize: 12.0,
-                      color: Colors.white70,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 5),
+                buildTempRow(
+                  'assets/icon/thermometer_low.png',
+                  dailyData['minTemperature'],
+                ),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                textBaseline: TextBaseline.alphabetic,
-                children: [
-                  Image.asset(
-                    'assets/icon/9045188_temperature_min_icon.png',
-                    width: 20,
-                    height: 20,
-                  ),
-                  const SizedBox(width: 5),
-
-                  SelectableText(
-                    '${dailyData['minTemperature']}',
-                    style: const TextStyle(fontSize: 16.0, color: Colors.white),
-                    textAlign: TextAlign.center,
-                  ),
-
-                  SelectableText(
-                    '°C',
-                    style: const TextStyle(
-                      fontSize: 12.0,
-                      color: Colors.white70,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 5),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                // textBaseline: TextBaseline.alphabetic,
-
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SelectableText(
-                    '${dailyData['weatherCodeDescription']}',
-                    style: const TextStyle(fontSize: 14.0, color: Colors.white),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ],
+                Text(
+                  dailyData['weatherCodeDescription'] ?? '',
+                  style: const TextStyle(fontSize: 14.0, color: Colors.white),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -247,24 +183,27 @@ class WeeklyCarrousselWeather extends StatelessWidget {
       );
     }
 
+    final double screenWidth = MediaQuery.of(context).size.width;
+    const double mobileBreakpoint = 490.0;
+    final double viewportFractionValue =
+        screenWidth < mobileBreakpoint ? 1.0 : 0.5;
+
     return CarouselSlider(
       options: CarouselOptions(
         height: 140.0,
         enlargeCenterPage: false,
         autoPlay: false,
         enableInfiniteScroll: false,
-        viewportFraction: 1 / 2,
+        viewportFraction: viewportFractionValue,
         padEnds: false,
       ),
       items:
           hourlyWeatherMaps.asMap().entries.map((entry) {
-            final int index = entry.key; // L'index de l'élément actuel
-            final Map<String, String> dailyData =
-                entry.value; // La donnée elle-même
+            final int index = entry.key; // index
+            final Map<String, String> dailyData = entry.value;
 
             return Builder(
               builder: (BuildContext context) {
-                // Tu passes maintenant l'index à ta fonction _buildDailyWeatherCard
                 return _buildDailyWeatherCard(dailyData, index);
               },
             );

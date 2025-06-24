@@ -34,8 +34,7 @@ class CountryCityRegionFlag extends StatelessWidget {
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
-                overflow:
-                    TextOverflow.ellipsis, // Important pour gérer l'overflow
+                overflow: TextOverflow.ellipsis, // l'overflow
               ),
             ),
           ),

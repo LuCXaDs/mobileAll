@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/app_state.dart';
-
 import 'package:country_flags/country_flags.dart';
+
+import '../models/app_state.dart';
 
 class SearchViewScreen extends StatefulWidget {
   const SearchViewScreen({super.key, required this.myHomePageContext});
@@ -29,13 +29,11 @@ class SearchViewScreenState extends State<SearchViewScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            // color: Colors.white,
             decoration: BoxDecoration(
-              // Couleur de fond de l'AppBar (peut être semi-transparente)
               color: Theme.of(
                 context,
               ).colorScheme.surface.withAlpha((0.95 * 255).round()),
-              borderRadius: BorderRadius.circular(25.0), // Bords arrondis
+              borderRadius: BorderRadius.circular(25.0),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withAlpha((0.1 * 255).round()),
@@ -56,7 +54,6 @@ class SearchViewScreenState extends State<SearchViewScreen> {
                 return ListTile(
                   title: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    // textBaseline: TextBaseline.alphabetic,
                     children: [
                       CountryFlag.fromCountryCode(
                         suggestion['code'],

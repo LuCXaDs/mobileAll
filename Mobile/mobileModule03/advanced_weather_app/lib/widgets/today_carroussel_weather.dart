@@ -160,39 +160,28 @@ class TodayCarrousselWeather extends StatelessWidget {
       );
     }
 
-    // int getHourFromDateTime(DateTime dateTime) {
-    //   return dateTime.hour;
-
-    // Si tu veux exactement 3 conteneurs, assure-toi que ta liste a au moins 3 éléments.
-    // Sinon, le carrousel affichera le nombre d'éléments disponibles.
-    // Tu peux ajouter une logique ici pour garantir 3 éléments si nécessaire,
-    // par exemple en remplissant avec des données "N/A" si weatherData.hourly est trop court.
-    // Pour l'instant, on suppose que weatherData.hourly contient au moins 3 éléments.
+    final double screenWidth = MediaQuery.of(context).size.width;
+    const double mobileBreakpoint = 430.0;
+    final double viewportFractionValue =
+        screenWidth < mobileBreakpoint ? 1 / 2 : 1 / 3;
 
     return CarouselSlider(
       options: CarouselOptions(
         height: 200.0,
         enlargeCenterPage: false,
         initialPage: weatherData.time.hour,
-        // --- Nouveaux paramètres pour contrôler le comportement ---
-        autoPlay: false, // Désactive l'auto-lecture
-        enableInfiniteScroll: false, // Désactive le défilement infini
-        // --- Fin des nouveaux paramètres ---
-        // autoPlayInterval: const Duration(seconds: 3),
-        // autoPlayAnimationDuration: const Duration(milliseconds: 100),
-        // autoPlayCurve: Curves.fastOutSlowIn,
-        viewportFraction: 1 / 3,
+        autoPlay: false,
+        enableInfiniteScroll: false,
+        viewportFraction: viewportFractionValue,
         padEnds: false,
       ),
       items:
           hourlyWeatherMaps.asMap().entries.map((entry) {
-            final int index = entry.key; // L'index de l'élément actuel
-            final Map<String, String> dailyData =
-                entry.value; // La donnée elle-même
+            final int index = entry.key;
+            final Map<String, String> dailyData = entry.value;
 
             return Builder(
               builder: (BuildContext context) {
-                // Tu passes maintenant l'index à ta fonction _buildDailyWeatherCard
                 return _buildHourlyWeatherCard(dailyData, index);
               },
             );
