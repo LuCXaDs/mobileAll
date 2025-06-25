@@ -69,26 +69,26 @@ class DailyTemperatureChart extends StatelessWidget {
         plotAreaBackgroundColor: Colors.transparent,
         plotAreaBorderWidth: 0,
         title: ChartTitle(
-          text: 'Prévisions sur 7 jours',
+          text: '7 Days Temperature Min/Max',
           textStyle: const TextStyle(color: Colors.white),
           alignment: ChartAlignment.near,
         ),
         legend: Legend(
           isVisible: true,
           position: LegendPosition.bottom,
-          textStyle: const TextStyle(color: Colors.white, fontSize: 12),
+          textStyle: const TextStyle(color: Colors.white, fontSize: 10),
         ),
         primaryXAxis: CategoryAxis(
           majorGridLines: const MajorGridLines(width: 0),
           axisLine: const AxisLine(width: 0),
-          labelStyle: const TextStyle(color: Colors.white, fontSize: 12),
+          labelStyle: const TextStyle(color: Colors.white, fontSize: 10),
           labelRotation: -45,
         ),
         primaryYAxis: NumericAxis(
           labelFormat: '{value}°',
           majorGridLines: const MajorGridLines(width: 0),
           axisLine: const AxisLine(width: 0),
-          labelStyle: const TextStyle(color: Colors.white, fontSize: 12),
+          labelStyle: const TextStyle(color: Colors.white, fontSize: 10),
         ),
         series: <CartesianSeries<DailyTemperatureData, String>>[
           // --- Temperature MAXIMALE ---

@@ -12,6 +12,7 @@ class AppState with ChangeNotifier {
   double _currentDegrees = 0.0;
   bool _showPageInformation = false;
   bool _locationButtonColor = false;
+  bool _errorLocation = false;
 
   List<dynamic> get citySuggestions => _citySuggestions;
 
@@ -21,6 +22,7 @@ class AppState with ChangeNotifier {
   double get currentDegrees => _currentDegrees;
   bool get showPageInformation => _showPageInformation;
   bool get locationButtonColor => _locationButtonColor;
+  bool get errorLocation => _errorLocation;
 
   String _latitude = '';
   String _longitude = '';
@@ -41,6 +43,11 @@ class AppState with ChangeNotifier {
 
   void setShowPageInformation(bool result) {
     _showPageInformation = result;
+    notifyListeners();
+  }
+
+  void setErrorLocation(bool result) {
+    _errorLocation = result;
     notifyListeners();
   }
 

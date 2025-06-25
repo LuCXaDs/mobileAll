@@ -60,7 +60,7 @@ class TemperatureChartPage extends StatelessWidget {
         plotAreaBorderWidth: 0,
 
         title: ChartTitle(
-          text: 'Température sur 24h',
+          text: '24h Temperature',
           textStyle: TextStyle(color: Colors.white),
           alignment: ChartAlignment.near,
         ),

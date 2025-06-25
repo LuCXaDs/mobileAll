@@ -42,6 +42,7 @@ class CustomAppBar extends StatelessWidget {
                 onPressed: () => appState.onTapSearch(context),
                 icon: const Icon(Icons.search),
                 tooltip: 'Find a City',
+                color: Color(0xff11112a),
               ),
             ),
             // --- Text Field ---
@@ -66,13 +67,16 @@ class CustomAppBar extends StatelessWidget {
             // --- Geolocalisation Button ---
             IconButton(
               onPressed: () => geolocationService.fetchLocation(context),
-              icon: const Icon(Icons.place),
+              icon:
+                  appState.locationButtonColor == false
+                      ? Icon(Icons.place)
+                      : Icon(Icons.home),
               tooltip: 'My Position',
               iconSize: 24,
               color:
                   appState.locationButtonColor == false
-                      ? Colors.black87
-                      : const Color.fromARGB(255, 72, 126, 197),
+                      ? Color(0xff11112a)
+                      : Color(0xff002496),
             ),
           ],
         ),

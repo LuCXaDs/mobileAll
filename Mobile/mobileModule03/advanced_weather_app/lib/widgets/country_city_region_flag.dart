@@ -43,39 +43,48 @@ class CountryCityRegionFlag extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Flexible(
-                  child: Text(
-                    weatherData.city.toString(),
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  child:
+                      weatherData.city.toString() != 'Unknown'
+                          ? Text(
+                            weatherData.city.toString(),
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          )
+                          : SizedBox(),
                 ),
                 if (weatherData.city == 'Unknown')
                   Flexible(
-                    child: Text(
-                      weatherData.region.toString(),
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    child:
+                        weatherData.region.toString() != 'Unknown'
+                            ? Text(
+                              weatherData.region.toString(),
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            )
+                            : SizedBox(),
                   ),
                 if (weatherData.city != 'Unknown')
                   Flexible(
-                    child: Text(
-                      ', ${weatherData.region.toString()}',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    child:
+                        weatherData.region.toString() != 'Unknown'
+                            ? Text(
+                              ', ${weatherData.region.toString()}',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            )
+                            : SizedBox(),
                   ),
               ],
             ),
