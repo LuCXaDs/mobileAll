@@ -23,7 +23,7 @@ enum GeolocationErrorType {
   permissionDenied,
   permissionDeniedForever,
   unknown,
-  initialPermissionDenied, // Pour le cas spécifique du premier lancement
+  initialPermissionDenied, // First start of App
 }
 
 class GeolocationService {
@@ -79,7 +79,7 @@ class GeolocationService {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       throw GeolocationException(
-        'Les services de localisation sont désactivés.',
+        'Location services are disabled. Please enable them in your device settings.',
         GeolocationErrorType.serviceDisabled,
       );
     }
@@ -89,7 +89,7 @@ class GeolocationService {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         throw GeolocationException(
-          'Les permissions de localisation sont refusées.',
+          'Location permissions are denied. Please grant permission to use location services.',
           GeolocationErrorType.permissionDenied,
         );
       }
@@ -97,7 +97,7 @@ class GeolocationService {
 
     if (permission == LocationPermission.deniedForever) {
       throw GeolocationException(
-        'Les permissions de localisation sont refusées de manière permanente. Veuillez les activer dans les paramètres de votre appareil.',
+        'Location permissions are permanently denied. Please enable them in your device settings.',
         GeolocationErrorType.permissionDeniedForever,
       );
     }
@@ -118,33 +118,29 @@ class GeolocationService {
       try {
         await _checkAndRequestLocationPermission();
         await prefs.setBool('hasAcceptedLocationInitially', true);
-        debugPrint('Localisation acceptée au premier lancement.');
+        debugPrint('Location accepted on first launch.');
         if (context.mounted) {
           fetchLocation(context);
         }
       } on GeolocationException catch (e) {
-        debugPrint(
-          'Localisation refusée ou problème au premier lancement: ${e.message}',
-        );
+        debugPrint('Location denied or issue on first launch: ${e.message}');
         await prefs.setBool('hasAcceptedLocationInitially', false);
 
         if (context.mounted) {
           showErrorDialog(
             context,
-            'Localisation Requise',
-            'Pour une expérience complète, veuillez activer les services de localisation. Vous pouvez le faire plus tard via le bouton de localisation.',
+            'Location Required',
+            'For a full experience, please enable location services. You can do this later via the location button.',
           );
         }
       } catch (e) {
-        debugPrint(
-          'Erreur inattendue au premier lancement de la localisation: $e',
-        );
+        debugPrint('Unexpected error on initial location request: $e');
         await prefs.setBool('hasAcceptedLocationInitially', false);
         if (context.mounted) {
           showErrorDialog(
             context,
-            'Erreur de Localisation',
-            'Une erreur inattendue est survenue lors de la demande de localisation: $e',
+            'Location Error',
+            'An unexpected error occurred during the location request: $e',
           );
         }
       } finally {
@@ -190,22 +186,22 @@ class GeolocationService {
     } on GeolocationException catch (e) {
       debugPrint('Geolocation Error (from button): ${e.message}');
       if (context.mounted) {
-        showErrorDialog(context, 'Erreur de Localisation', e.message);
+        showErrorDialog(context, 'Location Error', e.message);
       }
       if (context.mounted) {
-        context.read<AppState>().setLocationMessage('Erreur: ${e.message}');
+        context.read<AppState>().setLocationMessage('Error: ${e.message}');
       }
     } catch (e) {
       debugPrint('An unexpected error occurred (from button): $e');
       if (context.mounted) {
         showErrorDialog(
           context,
-          'Erreur Inattendue',
-          'Une erreur inattendue est survenue: $e',
+          'Unexpected Error',
+          'An unexpected error occurred: $e',
         );
       }
       if (context.mounted) {
-        context.read<AppState>().setLocationMessage('Erreur inattendue: $e');
+        context.read<AppState>().setLocationMessage('Unexpected error: $e');
       }
     }
   }
