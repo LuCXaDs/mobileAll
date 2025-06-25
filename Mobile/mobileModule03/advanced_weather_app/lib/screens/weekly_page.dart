@@ -27,11 +27,18 @@ class WeeklyPageState extends State<WeeklyPage> {
   @override
   Widget build(BuildContext context) {
     if (_weatherData == null) {
-      return const Center(child: CircularProgressIndicator());
+      // return const Center(child: CircularProgressIndicator());
+      // return;
+      return Center(
+        child: Text(
+          'Weekly',
+          style: TextStyle(fontSize: 30, color: Colors.white),
+        ),
+      );
     }
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
       child: Column(
         children: [
           CountryCityRegionFlag(weatherData: _weatherData!),

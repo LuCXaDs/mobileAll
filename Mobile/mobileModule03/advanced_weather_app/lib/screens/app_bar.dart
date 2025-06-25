@@ -13,17 +13,26 @@ class CustomAppBar extends StatelessWidget {
     final GeolocationService geolocationService = GeolocationService();
     final AppState appState = context.read<AppState>();
 
-    return Padding(
+    return Container(
+      // height: 80,
+      // decoration: BoxDecoration(
+      //   color: const Color(0xff11112a),
+      //   // color: Colors.white,
+      //   borderRadius: BorderRadius.only(
+      //     bottomLeft: Radius.circular(35),
+      //     bottomRight: Radius.circular(35),
+      //   ),
+      // ),
       padding: const EdgeInsets.only(
-        top: 20.0,
+        top: 15.0,
         left: 16.0,
         right: 16.0,
-        bottom: 10.0,
+        // bottom: 10.0,
       ),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 3.0),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface.withAlpha(230),
+          color: Colors.white,
           borderRadius: BorderRadius.circular(15.0),
           boxShadow: [
             BoxShadow(
@@ -53,7 +62,7 @@ class CustomAppBar extends StatelessWidget {
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
                 decoration: InputDecoration(
-                  hintText: 'Seatch a city ...',
+                  hintText: 'Search a city ...',
                   hintStyle: TextStyle(
                     color: Theme.of(
                       context,

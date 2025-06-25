@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 import './services/geolocation_service.dart';
 
@@ -11,10 +12,6 @@ import 'screens/today_page.dart';
 import 'screens/weekly_page.dart';
 import 'screens/search_view_screen.dart';
 import 'screens/app_bar.dart';
-
-import 'design/degrees_background.dart';
-
-import 'package:google_nav_bar/google_nav_bar.dart';
 
 void main() {
   runApp(
@@ -67,17 +64,16 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final GeolocationService _geolocationService = GeolocationService();
-  final DegreesBackground _degreesBackground = DegreesBackground();
   final PageController _pageController = PageController();
-  // final double _currentDegrees = 25;
+  String result = '';
 
   @override
   void initState() {
     super.initState();
     context.read<AppState>().searchController.addListener(_onTextChanged);
-    if (context.read<AppState>().errorLocation == false) {
-      _geolocationService.getCurrentLocationDialogError(context);
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _geolocationService.handleInitialLocationRequest(context);
+    });
   }
 
   void _onTextChanged() {
@@ -119,8 +115,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          gradient: _degreesBackground.getGradientForDegrees(
-            context.read<AppState>().currentDegrees,
+          image: DecorationImage(
+            image: AssetImage('assets/back/back.png'),
+            fit: BoxFit.cover,
           ),
         ),
         child: SafeArea(

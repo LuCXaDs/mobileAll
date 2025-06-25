@@ -100,6 +100,54 @@ class AppState with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> showErrorDialog(
+    BuildContext context,
+    String title,
+    String content,
+  ) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          backgroundColor: Colors.red[50],
+          icon: Icon(Icons.error_outline, color: Colors.red[700], size: 48),
+          title: Text(
+            title,
+            style: TextStyle(
+              color: Colors.red[900],
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            content,
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.black87),
+          ),
+          actionsAlignment: MainAxisAlignment.center,
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'OK',
+                style: TextStyle(
+                  color: Colors.red[800],
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+              },
+            ),
+          ],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+        );
+      },
+    );
+  }
+
   void onTapSearch(BuildContext context) {
     if (_searchController.text.isNotEmpty) {
       setLocationMessage('');
@@ -110,6 +158,7 @@ class AppState with ChangeNotifier {
           }).toList();
       if (result.isEmpty) {
         setSearchText("City not found");
+        showErrorDialog(context, 'City', searchText);
       } else {
         setLatAndLong(
           result[0]['latitude']?.toString() ?? 'Unkown',
