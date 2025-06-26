@@ -110,7 +110,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final appState = context.watch<AppState>();
-    context.read<AppState>().setErrorLocation(true);
 
     return Scaffold(
       body: Container(

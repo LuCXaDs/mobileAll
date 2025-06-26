@@ -41,6 +41,12 @@ class AppState with ChangeNotifier {
   final TextEditingController _searchController = TextEditingController();
   TextEditingController get searchController => _searchController;
 
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
   void setShowPageInformation(bool result) {
     _showPageInformation = result;
     notifyListeners();
