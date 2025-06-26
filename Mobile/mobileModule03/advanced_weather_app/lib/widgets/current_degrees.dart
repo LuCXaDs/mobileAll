@@ -62,7 +62,7 @@ class WeatherInfoRow extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Wind Speed ${weatherData.current.windSpeed} m/s',
+                  'Wind Speed ${weatherData.current.windSpeed} km/s',
                   style: const TextStyle(fontSize: 12, color: Colors.white),
                 ),
               ],

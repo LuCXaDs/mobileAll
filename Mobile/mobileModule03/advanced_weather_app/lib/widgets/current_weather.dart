@@ -53,7 +53,7 @@ class WeatherCurrentAllInfo extends StatelessWidget {
             children: [
               _buildInfoItem(
                 title: "Wind Speed",
-                value: '${weatherData.current.windSpeed} m/s',
+                value: '${weatherData.current.windSpeed} km/s',
               ),
               _buildInfoItem(
                 title: "UV Index",
